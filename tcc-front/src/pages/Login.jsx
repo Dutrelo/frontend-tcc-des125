@@ -1,29 +1,35 @@
 import { useState } from 'react';
-import api from '../services/api'; //importando o axios que criamos para "falar" com a API
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api'; //Axios que criamos/usamos para "falar" com a API
 
 function Login() {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
+  const navigate = useNavigate(); //redicionar para o dashboard após o login
 
-  // coloquei o 'async' porque conversar com a API demora alguns milissegundos
+  // Coloquei o async porque conversar com a API demora alguns milissegundos
   const handleLogin = async (e) => {
     e.preventDefault(); 
     
     try {
-      // mandando um POST para a rota de login da nossa API, com nome de usuario e senha
+      // Mandando um POST para a rota de login da nossa API, com nome de usuario e senha
       const resposta = await api.post('/usuarios/login', {
   user_nome: usuario,
   user_senha: senha
 });
 
-      console.log("SUCESSO! A API devolveu:", resposta.data);
-      alert("Login efetuado com sucesso!");
+    // Salva o token e o nome do usuário no navegador
+      localStorage.setItem('token', resposta.data.token);
+      localStorage.setItem('usuarioNome', resposta.data.usuario.user_nome);
+
+      alert("Bem-vindo, " + resposta.data.usuario.user_nome);
       
-      // aqui que irá salvar o Token JWT e redirecionar para o Dashboard
+      // Mandamos o usuário para a tela principal do sistema (Dashboard)
+      navigate('/dashboard'); 
 
     } catch (erro) {
       console.error("Deu erro ao logar:", erro);
-      alert("Erro ao fazer login. Verifique seu usuário e senha ou se a API está rodando.");
+      alert("Usuário ou senha inválidos!");
     }
   };
 
