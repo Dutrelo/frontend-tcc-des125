@@ -1,20 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-
 function Dashboard() {
-  const navigate = useNavigate();
   const nome = localStorage.getItem('usuarioNome');
-
-  const handleLogout = () => {
-    localStorage.clear(); // Limpa o token e o nome
-    navigate('/');        // Manda de volta para a tela de login
-  };
 
   return (
     <div>
-      <h1>Painel de Controle - GranPlus</h1>
-      <p>Olá, <strong>{nome}</strong>! Você está logado no sistema.</p>
-      <button onClick={handleLogout}>Sair</button>
+      <h1>Painel Principal</h1>
+      <p>Bem-vindo ao controle de estoque da GranPlus, <strong>{nome}</strong>!</p>
+      {/* Removemos o botão Sair daqui, ele agora mora só na Sidebar! */}
     </div>
   );
 }
+
 export default Dashboard;
