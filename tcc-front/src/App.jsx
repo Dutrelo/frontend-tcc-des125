@@ -3,6 +3,7 @@ import Login from './pages/Login'; // Importando a página de Login (tela de ent
 import Dashboard from './pages/Dashboard'; // Importando a página de Dashboard
 import Layout from './components/Layout'; //Layout é o "esqueleto" da nossa aplicação, ele tem a Sidebar e o Outlet para injetar as páginas
 import Produtos from './pages/Produtos'; // Importando a página de Produtos
+import Estoque from './pages/Estoque'; // Importando a página de Estoque
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} /> // Rota para a página de Dashboard
           <Route path="/produtos" element={<Produtos />} /> // Rota para a página de Produtos
+          <Route path="/estoque" element={<Estoque />} /> // Rota para a página de Estoque
         </Route>
       </Routes>
     </BrowserRouter>
