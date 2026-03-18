@@ -14,6 +14,7 @@ function Estoque() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setEstoque(resposta.data);
+        console.log("O que a API mandou pro Estoque:", resposta.data);
       } catch (erro) {
         console.error("Erro ao buscar estoque:", erro);
       }
@@ -62,29 +63,25 @@ function Estoque() {
         </thead>
         <tbody>
           {estoqueFiltrado.length > 0 ? (
-            estoqueFiltrado.map((item, index) => (
-              // Usamos index como key provisória caso não tenha um id único no retorno
-              <tr key={item.lcl_id || index} style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={{ padding: '12px' }}>{item.pdt_nome || item.produto || 'Nome não encontrado'}</td>
-                <td style={{ padding: '12px' }}>{item.loc_nome || item.localizacao || 'Local não encontrado'}</td>
-                
-                {/* Destaque para a quantidade para ficar fácil de ler */}
-                <td style={{ padding: '12px', fontWeight: 'bold', color: '#27ae60' }}>
-                  {item.lcl_prod_estoque || item.quantidade || 0}
-                </td>
-                
-                <td style={{ padding: '12px', textAlign: 'center' }}>
-                  <button style={{ backgroundColor: '#f39c12', color: 'white', border: 'none', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }} title="Ajustar Estoque">
-                    ✏️ Ajustar
-                  </button>
-                </td>
-              </tr>
+              estoqueFiltrado.map((item, index) => (
+                <tr key={item.pdt_id || index} style={{ borderBottom: '1px solid #ddd' }}>
+                  <td style={{ padding: '12px', fontWeight: 'bold' }}>
+                    {item.pdt_nome || 'Nome não encontrado'}
+                  </td>
+                  <td style={{ padding: '12px', color: '#7f8c8d' }}>
+                    Geral
+                  </td>
+                  <td style={{ padding: '12px', fontWeight: 'bold', color: item.estoque_atual > 0 ? '#27ae60' : '#e74c3c' }}>
+                    {item.estoque_atual !== undefined ? item.estoque_atual : 0}
+                  </td>
+                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                    <button style={{ backgroundColor: '#f39c12', color: 'white', border: 'none', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}>✏️ Ajustar</button>
+                  </td>
+                </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" style={{ padding: '20px', textAlign: 'center' }}>
-                Nenhum item de estoque encontrado.
-              </td>
+              <td colSpan="4" style={{ padding: '20px', textAlign: 'center' }}>Nenhum item de estoque encontrado.</td>
             </tr>
           )}
         </tbody>
